@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Portal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>STUDENT PORTAL</h1>
+    <p>Student Management System</p>
+
+    <h2>Main Menu</h2>
+
+    <button onclick="addStudent()">Add Student</button>
+    <button onclick="searchStudent()">Search Student</button>
+    <button onclick="displayStudent()">Display Students</button>
+    <button onclick="showGrade()">Calculate Grade</button>
+    <button onclick="showAttendance()">Attendance</button>
+    <button onclick="showInstructions()">Instructions</button>
+
+    <div id="result">
+        Welcome to Student Portal
+    </div>
+
+</div>
+
+<script>
+let students = [];
+
+function addStudent() {
+    let name = prompt("Enter Student Name:");
+    let id = prompt("Enter Student ID:");
+    let marks = Number(prompt("Enter Marks:"));
+    let attendance = Number(prompt("Enter Attendance:"));
+
+    if (!name || !id || marks < 0 || marks > 100 ||
+        attendance < 0 || attendance > 100) {
+        alert("Enter valid details");
+        return;
+    }
+
+    students.push({name, id, marks, attendance});
+    alert("Student Added Successfully!");
+}
+
+function searchStudent() {
+    let id = prompt("Enter Student ID:");
+    let found = students.find(s => s.id === id);
+
+    document.getElementById("result").innerHTML =
+        found ? "Name: " + found.name + "<br>Marks: " + found.marks
+        : "Student Not Found";
+}
+
+function displayStudent() {
+    let output = "";
+
+    for (let s of students) {
+        output += s.id + " - " + s.name +
+        " - Marks: " + s.marks + "<br>";
+    }
+
+    document.getElementById("result").innerHTML =
+        output || "No Students Found";
+}
+
+function showGrade() {
+    let id = prompt("Enter Student ID:");
+    let s = students.find(x => x.id === id);
+
+    if (!s) {
+        alert("Student Not Found");
+        return;
+    }
+
+    let grade = s.marks >= 75 ? "A" :
+                s.marks >= 60 ? "B" :
+                s.marks >= 40 ? "C" : "Fail";
+
+    document.getElementById("result").innerHTML =
+        s.name + " Grade: " + grade;
+}
+
+function showAttendance() {
+    let id = prompt("Enter Student ID:");
+    let s = students.find(x => x.id === id);
+
+    document.getElementById("result").innerHTML =
+        s ? s.name + " Attendance: " + s.attendance + "%"
+        : "Student Not Found";
+}
+
+function showInstructions() {
+    document.getElementById("result").innerHTML =
+        "1. Maintain 75% Attendance<br>" +
+        "2. Attend all Exams<br>" +
+        "3. Complete Assignments";
+}
+</script>
+
+</body>
+</html>
